@@ -1,0 +1,17 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Alec Moldovan, Michael Morriss",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.2",
+    "mariadb": "^2.5.5"
+  }
+}
