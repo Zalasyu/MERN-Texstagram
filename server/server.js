@@ -1,20 +1,21 @@
-const express = require('express');
+import express from 'express';
+import mariadb from 'mariadb';
+
+const PORT = process.env.PORT || '3000';
+
 const app = express();
-const mariadb = require('mariadb');
+
+/*
+* MIDDWARE
+*/
+app.use(express.json());
+app.use(express.urlencoded({extended:false}));
 
 
+app.post('');
 
-const db = mysql.createConnection({
-	user: 		'root',
-	host: 		'localhost',
-	password:	'',
-	database:	'Texstagram'
-});
-
-
-app.post('')
-
-app.listen(3001, () => {
-	console.log("Server running on Port 3001");
+/* Start Listening. */
+app.listen(PORT, () => {
+	console.log(`Server running on port ${PORT}`);
 });
 

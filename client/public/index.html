@@ -1,43 +1,92 @@
-<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <title>Textstagram</title>
+    </head>
+    <body>
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+        <div class="container">
+            <nav class="navbar">
+                <a class="logo" href="index.html"><img src="images/textlogo.png"></a>
+                <span>
+                    <input class="search" type="text" placeholder="search">
+                    <button class="search_button">Search</button>
+                </span>
+            
+                <span class="icon_list">
+                    <a class="icons" href="index.html"><img src="images/home.png"></a>
+                    <a class="icons" href="notifications.html"><img src="images/like.png"></a>
+                    <a class="icons" href="explore.html"><img src="images/explore.png"></a>
+                    <a class="icons" href="post.html"><img src="images/add.PNG"></a>
+                </span>
+            </nav>
+        </div>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+        
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+        <div class="container">
+            <section class="bio">
+                <div class="profile_pic">
+                    <img src="https://static.onecms.io/wp-content/uploads/sites/6/2019/03/gettyimages-858077430-2000.jpg" alt="">
+                </div>
+                <div class="profile_info">
+                    <p class="username" > keanureeves </p>
+                    <button class="edit">Edit Profile</button>
+                    <p class="biography">Hello my name is Keanu and this is my Texstagram page, please follow and like my posts!</p>
+                    <ul class="stats">
+                        <li class="profile_stats"> Posts: 6</li>
+                        <li class="profile_stats"><a href="follower.html">Followers: 2</a></li>
+                        <li class="profile_stats"><a href="following.html">Following: 2</a></li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <div class="container"> 
+            <div class="post_collection">
+                
+                <div class="post">
+                    <a href="postTo.html">
+                        <img class="post_image"
+                            src="https://cdn.viewing.nyc/assets/media/33d9077c6b1513388fedaadb037d5f89/elements/608dd3d02dd43ce5e6e73dcca04f0907/xl/11f05480-363c-40db-8349-f53dc4beb8d3_2x.jpg">
+                    </a>
+                </div>
+                <div class="post">
+                    <a href="postTo.html">
+                        <img class="post_image"
+                            src="https://media.istockphoto.com/photos/commercial-buildings-view-from-low-angle-picture-id1270770086?b=1&k=20&m=1270770086&s=170667a&w=0&h=CDU5yXqOD8O387P6nbLBKPj7-BtF13HKW1wr7EOVQgA=">
+                    </a>
+                </div>
+                <div class="post">
+                    <a href="postTo.html">
+                        <img class="post_image"
+                            src="https://aceraft.com/wp-content/uploads/2019/04/ACE-Adventure-Adventure-Resort-West-Virginia-Rental-Cabin-Aspen.jpg">
+                    </a>
+                </div>
+                <div class="post">
+                    <a href="postTo.html">
+                        <img class="post_image"
+                            src="https://media.istockphoto.com/photos/happy-mixed-breed-dog-posing-with-a-kitten-on-his-head-picture-id1210341751?k=20&m=1210341751&s=612x612&w=0&h=v0Dw0214h_1zUG1bZTXx8IG0QwfOwi3Iqd52QNii6ZI=">
+                    </a>
+                </div>
+                <div class="post">
+                    <a href="postTo.html">
+                        <img class="post_image"
+                            src="https://images-na.ssl-images-amazon.com/images/S/pv-target-images/6b513e4366ded4f6ef36ca90f11408e06af34f30e1899a5ea44c6253c1d886d4._RI_.jpg">
+                    </a>
+                </div>
+                <div class="post">
+                    <a href="postTo.html">
+                        <img class="post_image"
+                            src="https://www.history.com/.image/ar_4:3%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTU3ODc5MjUyMDUyNjgyNDYz/golden-gate-bridge-2.jpg">
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+    </body>
 </html>
