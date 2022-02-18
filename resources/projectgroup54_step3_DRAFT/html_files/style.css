@@ -1,0 +1,151 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: verdana;
+}
+
+body {
+  width: 100%;
+  position: relative;
+}
+
+nav {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  border-bottom: 1px solid white;
+  display: flex;
+  justify-content: center;
+  margin-top: 1.2em;
+  margin-bottom: 5em;
+}
+
+.logo > img {
+  width: 70%;
+}
+
+.search {
+  margin-top: 1em;
+  height: 50%;
+}
+
+.search_button {
+  margin-right: 4em;
+}
+
+.icon_list {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.icons > img {
+  height: 50%;
+  margin-top: 0.7em;
+  margin-right: 1em;
+  margin-left: 1em;
+}
+
+.profile_pic > img {
+  width: 10em;
+  height: 10em;
+  margin-top: 0.9em;
+  margin-left: 3rem;
+  margin-right: 3rem;
+  border-radius: 50%;
+}
+
+.container {
+  padding: 0 15%;
+  position: relative;
+  max-width: 93.5rem;
+  margin: 0 auto;
+}
+
+.bio {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  background-color: grey;
+}
+
+.bio_follower {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  background-color: grey;
+  margin-bottom: 1em;
+}
+
+.edit {
+  height: 2em;
+  width: 8em;
+  float: left;
+  margin-right: 3em;
+  margin-top: 3.9em;
+}
+
+.username {
+  font-size: 1.1em;
+  font-weight: bold;
+  float: left;
+  margin-right: 3em;
+  margin-top: 3em;
+}
+
+.biography {
+  float: left;
+  width: 13em;
+  padding-left: 2em;
+  margin-top: 1em;
+}
+
+.stats {
+  float: left;
+  margin-left: 4em;
+  margin-top: 2.5em;
+}
+
+.title {
+  text-align: center;
+}
+
+.profile_stats {
+  display: inline;
+  margin-right: 4em;
+  font-weight: bold;
+}
+
+.post_collection {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -1rem -1rem;
+  padding-bottom: 3rem;
+}
+
+.post {
+  position: relative;
+  margin: 1rem;
+  margin-left: 3em;
+  margin-right: 3em;
+  cursor: pointer;
+}
+.post_image {
+  width: 13em;
+  height: 20em;
+  object-fit: cover;
+  margin-left: 0.5em;
+  margin-top: 2em;
+}
+
+.create_post_info {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.input_field {
+  display: flex;
+
+  margin-bottom: 2em;
+  margin-top: 2em;
+}

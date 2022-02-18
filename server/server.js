@@ -18,11 +18,10 @@ app.use(express.urlencoded({extended:false}));
 /*
 * ROUTING
 */
-// TODO:Link Feed to Root URL
-app.get("/", (res, req) => {
+import profileRouter from './routes/profile.js';
 
-
-});
+// TODO: Connect database to route and route to html and serve feed (Posts from followings list).
+app.get("/", profileRouter);
 
 
 app.post('');
