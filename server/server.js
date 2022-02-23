@@ -19,9 +19,13 @@ app.use(express.urlencoded({extended:false}));
 * ROUTING
 */
 import profileRouter from './routes/profile.js';
+import feedRouter from './routes/feed.js';
 
-// TODO: Connect database to route and route to html and serve feed (Posts from followings list).
-app.get("/", profileRouter);
+// TODO: Make this get request take a parameter to search and serve the right user's profile page.
+app.get("/api/", profileRouter);
+
+// Serve the feed (Posts from all users in one place the homepage!)
+app.get("/api/feed", feedRouter);
 
 
 app.post('');

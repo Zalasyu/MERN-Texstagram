@@ -27,7 +27,6 @@ DROP TABLE IF EXISTS `Followings`;
 CREATE TABLE `Profiles` (
   `username` VARCHAR(255) NOT NULL,
   `profile_pic_url` VARCHAR(255),
-  `profile_pic` LONGBLOB,
   `full_name` VARCHAR(255) NOT NULL,
   `bio` VARCHAR(255),
   `num_followers` INT NOT NULL,
@@ -43,7 +42,7 @@ CREATE TABLE `Profiles` (
   PRIMARY KEY (`username`)
 );
 
-INSERT INTO `Profiles`(`username`, `profile_pic_url`, `profile_pic`, `full_name`, `bio`, `num_followers`, `num_following`, `media_count`, `is_business`, `website_url`, `followed_by_user`, `is_following`, `is_blocked`, `is_verified`, `is_private`) VALUES ("Dyras", "https://dklg;djkfa.com", LOAD_FILE('/home/zalasyu/Documents/340-CS/Project/database/test_profile_pics/fox-animal-uhdpaper.com-4K-8.1495.jpg'), "Alec Moldovan", "Per aspera ad astra. Hic Sunt Dracones.", 0,0, 0, false,"https://medium.com/alec.moldovan", false, false, false, true, false);
+INSERT INTO `Profiles`(`username`, `profile_pic_url`, `full_name`, `bio`, `num_followers`, `num_following`, `media_count`, `is_business`, `website_url`, `followed_by_user`, `is_following`, `is_blocked`, `is_verified`, `is_private`) VALUES ("Dyras", "Some URL for the profile pic", "Alec Moldovan", "Per aspera ad astra. Hic Sunt Dracones.", 0,0, 0, false,"https://medium.com/alec.moldovan", false, false, false, true, false);
 
 
 -- Create Posts Table
