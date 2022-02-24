@@ -24,88 +24,30 @@ DROP TABLE IF EXISTS `Followers`;
 DROP TABLE IF EXISTS `Followings`;
 
 -- Create Profiles Table
-CREATE TABLE `Profiles` (
-  `username` VARCHAR(255) NOT NULL,
-  `profile_pic_url` VARCHAR(255),
-  `full_name` VARCHAR(255) NOT NULL,
-  `bio` VARCHAR(255),
-  `num_followers` INT NOT NULL,
-  `num_following` INT NOT NULL,
-  `media_count` INT NOT NULL,
-  `is_business` BOOLEAN NOT NULL,
-  `website_url` VARCHAR(255),
-  `followed_by_user` BOOLEAN NOT NULL,
-  `is_following` BOOLEAN NOT NULL,
-  `is_blocked` BOOLEAN NOT NULL,
-  `is_verified` BOOLEAN NOT NULL,
-  `is_private` BOOLEAN NOT NULL,
-  PRIMARY KEY (`username`)
-);
-
-INSERT INTO `Profiles`(`username`, `profile_pic_url`, `full_name`, `bio`, `num_followers`, `num_following`, `media_count`, `is_business`, `website_url`, `followed_by_user`, `is_following`, `is_blocked`, `is_verified`, `is_private`) VALUES ("Dyras", "Some URL for the profile pic", "Alec Moldovan", "Per aspera ad astra. Hic Sunt Dracones.", 0,0, 0, false,"https://medium.com/alec.moldovan", false, false, false, true, false);
-
-
--- Create Posts Table
 CREATE TABLE `Posts` (
-  `post_id` INT NOT NULL auto_increment,
-  `owner` VARCHAR(255) NOT NULL,
-  `post_date` DATETIME NOT NULL,
-  `caption` text,
-  `comments_count` INT NOT NULL,
-  `likes_count` INT NOT NULL,
-  `display_url` VARCHAR(255) NOT NULL,
-  `is_video` BOOLEAN NOT NULL,
-  `video_view_count` INT,
-  `video_url` VARCHAR(255),
-  `has_audio` BOOLEAN NOT NULL,
-  `video_pay_count` INT,
-  `video_duration` INT,
-  `status` BOOLEAN NOT NULL,
-  PRIMARY KEY (`post_id`),
-  FOREIGN KEY (`owner`) REFERENCES `Profiles`(`username`) 
+  `post_id`           INT AUTO_INCREMENT NOT NULL,
+  `owner`             VARCHAR(255) NOT NULL,
+  `location`          INT,
+  `post_date`         DATE,
+  `caption`           TEXT,
+  `comments_count`    INT DEFAULT 0,
+  `likes_count`       INT DEFAULT 0,
+  `display_url`       VARCHAR(255) NOT NULL,
+  `is_video`          BOOLEAN NOT NULL,
+  `video_view_count`  INT,
+  `video_url`         VARCHAR(255),
+  `has_audio`         BOOLEAN,
+  `video_duration`    INT,
+  `status`            VARCHAR(5) NOT NULL,
+  PRIMARY KEY (`post_id`)
 );
 
--- Create Locations Table
-CREATE TABLE `Locations` (
-  `location_id` INT NOT NULL,
-  `city` VARCHAR(255) NOT NULL,
-  `state` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`location_id`)
-);
-
--- Create Junction Table between Posts and Locations
-CREATE TABLE `Locations_Posts` (
-  `post_id` INT NOT NULL,
-  `location_id` INT NOT NULL,
-  FOREIGN KEY (`location_id`) REFERENCES `Locations`(`location_id`),
-  FOREIGN KEY (`post_id`) REFERENCES `Posts`(`post_id`)
-);
-
--- Create Comments Table
-CREATE TABLE `Comments` (
-  `comment_id` INT NOT NULL,
-  `owner` VARCHAR(255) NOT NULL,
-  `comment_text` TEXT NOT NULL,
-  `parent_comment_id` INT,
-  PRIMARY KEY (`comment_id`),
-  FOREIGN KEY (`parent_comment_id`) REFERENCES `Comments`(`comment_id`)
-);
-
-CREATE TABLE `Comments_Posts` (
-  `post_id` INT NOT NULL,
-  `comment_id` INT NOT NULL,
-  FOREIGN KEY (`post_id`) REFERENCES `Posts`(`post_id`),
-  FOREIGN KEY (`comment_id`) REFERENCES `Comments`(`comment_id`)
-);
-
--- Create Likes Table
 CREATE TABLE `Likes` (
-  `like_id` INT NOT NULL,
-  `liked_by` VARCHAR(255) NOT NULL,
+  `like_id`   INT,
+  `liked_by`  VARCHAR(255) NOT NULL,
   PRIMARY KEY (`like_id`)
 );
 
--- Create Junction Table between Likes and Posts
 CREATE TABLE `Likes_Posts` (
   `post_id` INT NOT NULL,
   `like_id` INT NOT NULL,
@@ -113,35 +55,132 @@ CREATE TABLE `Likes_Posts` (
   FOREIGN KEY (`like_id`) REFERENCES `Likes`(`like_id`)
 );
 
--- Create Followers Table
-CREATE TABLE `Followers` (
-  `follower_id` INT NOT NULL,
-  `username` VARCHAR(255),
-  PRIMARY KEY (`follower_id`)
+CREATE TABLE `Profiles` (
+  `username`          VARCHAR(255) NOT NULL,
+  `profile_pic_url`   VARCHAR(255) NOT NULL,
+  `full_name`         VARCHAR(255) NOT NULL,
+  `bio`               TEXT,
+
+  `num_followers`     INT NOT NULL,
+  `num_following`     INT NOT NULL,
+  `media_count`       INT NOT NULL,
+  `is_business`       BOOLEAN NOT NULL,
+  `website_url`       VARCHAR(255),
+  `followed_by_user`  BOOLEAN NOT NULL,
+  `is_following`      BOOLEAN NOT NULL,
+  `is_blocked`        BOOLEAN NOT NULL,
+  `is_verified`       BOOLEAN NOT NULL,
+  `is_private`        BOOLEAN NOT NULL,
+  PRIMARY KEY (`username`)
 );
 
--- Create Junction Table between  Profiles and Followers
-CREATE TABLE `Profiles_Followers` (
-  `username` VARCHAR(255) NOT NULL,
-  `follower_id` INT NOT NULL,
-  FOREIGN KEY (`username`) REFERENCES `Profiles`(`username`),
-  FOREIGN KEY (`follower_id`) REFERENCES `Followers`(`follower_id`)
-);
-
--- Create Followings Table
 CREATE TABLE `Followings` (
-  `follower_id` INT NOT NULL,
-  `username` VARCHAR(255) NOT NULL,
+  `following_id` INT,
+  `username`    VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`following_id`)
+);
+
+CREATE TABLE `Profiles_Followings` (
+  `username`      VARCHAR(255) NOT NULL,
+  `following_id`  INT NOT NULL,
+  FOREIGN KEY (`username`) REFERENCES `Profiles`(`username`),
+  FOREIGN KEY (`following_id`) REFERENCES `Followings`(`following_id`)
+);
+
+CREATE TABLE `Locations` (
+  `location_id` INT,
+  `city`        VARCHAR(255) NOT NULL,
+  `state`       VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`location_id`)
+);
+
+CREATE TABLE `Locations_Posts` (
+  `post_id`    INT NOT NULL,
+  `location_id` INT NOT NULL,
+  FOREIGN KEY (`location_id`) REFERENCES `Locations`(`location_id`),
+  FOREIGN KEY (`post_id`) REFERENCES `Posts`(`post_id`)
+);
+
+CREATE TABLE `Comments` (
+  `comment_id`        INT,
+  `owner`             VARCHAR(255) NOT NULL,
+  `comment_text`      text,
+  `parent_comment_id` INT,
+  PRIMARY KEY (`comment_id`),
+  FOREIGN KEY (`parent_comment_id`) REFERENCES `Comments`(`comment_id`)
+);
+
+CREATE TABLE `Comments_Posts` (
+  `post_id`       INT NOT NULL,
+  `comment_id`    INT NOT NULL,
+  FOREIGN KEY (`post_id`) REFERENCES `Posts`(`post_id`),
+  FOREIGN KEY (`comment_id`) REFERENCES `Comments`(`comment_id`)
+);
+
+CREATE TABLE `Followers` (
+  `follower_id`   INT,
+  `username`      VARCHAR(255) NOT NULL,
   PRIMARY KEY (`follower_id`)
 );
 
--- Create Junction table between Profiles and Followings
-CREATE TABLE `Profiles_Followings` (
-  `username` VARCHAR(255) NOT NULL,
-  `following_id` INT NOT NULL,
+CREATE TABLE `Profiles_Posts` (
+  `username`    VARCHAR(255),
+  `post_id`     INT NOT NULL,
   FOREIGN KEY (`username`) REFERENCES `Profiles`(`username`),
-  FOREIGN KEY (`following_id`) REFERENCES `Followings`(`follower_id`)
+  FOREIGN KEY (`post_id`) REFERENCES `Posts`(`post_id`)
 );
+
+CREATE TABLE `Profiles_Followers` (
+  `username`    VARCHAR(255) NOT NULL,
+  `follower_id` INT NOT NULL,
+  FOREIGN KEY (`follower_id`) REFERENCES `Followers`(`follower_id`),
+  FOREIGN KEY (`username`) REFERENCES `Profiles`(`username`)
+);
+
 
 -- INSERT DUMMY DATA FOR ALL TABLES
 
+-- Add a Profile to Profiles Table
+INSERT INTO `Profiles`(`username`, `profile_pic_url`, `full_name`, `bio`, `num_followers`, `num_following`, `media_count`, `is_business`, `website_url`, `followed_by_user`, `is_following`, `is_blocked`, `is_verified`, `is_private`) VALUES ("Dyras", "Some URL for the profile pic", "Alec Moldovan", "Per aspera ad astra. Hic Sunt Dracones.", 0,0, 0, false,"https://medium.com/alec.moldovan", false, false, false, true, false);
+
+-- Second Profile
+INSERT INTO `Profiles`(`username`, `profile_pic_url`, `full_name`, `bio`, `num_followers`, `num_following`, `media_count`, `is_business`, `website_url`, `followed_by_user`, `is_following`, `is_blocked`, `is_verified`, `is_private`) VALUES ("SkaterDude", "Some URL for the profile pic", "Michael Morriss", "San Antonio Vibes!", 0,0, 0, false,"https://medium.com/micahel.morriss", false, false, false, true, false);
+-- Add a Post to Posts Table
+INSERT INTO `Posts`(`post_id`, `owner`, `post_date`, `caption`, `display_url`, `is_video`, `status`) VALUES (1, "Dyras", "2022-02-21", "This is my first post on Texstagram!", "This will be a display url to our saved photos on our server.", False, "OK");
+
+-- Link Post to Profile Table
+INSERT INTO `Profiles_Posts` VALUES ("Dyras", 1);
+
+-- Add a location to Locations Table
+INSERT INTO `Locations` VALUES (1, "Austin", "Texas");
+
+-- Link Locations to Posts Table
+INSERT INTO `Locations_Posts` VALUES (1,1);
+
+--Add a Comment to our first post from Dyras!
+INSERT INTO `Comments`(`comment_id`, `owner`, `comment_text`) VALUES (1, "SkaterDude", "Welcome bud! Glad you signed up!");
+INSERT INTO `Comments`(`comment_id`, `owner`, `comment_text`, `parent_comment_id`) VALUES (2, "Dyras", "Thank you SkaterDude! How are ya?!", 1);
+
+-- Link Comment to Dyras' first post by Alec Moldovan
+INSERT INTO `Comments_Posts` VALUES (1,1);
+INSERT INTO `Comments_Posts` VALUES (1,2);
+
+-- TODO: Add a transcation to update the comment_count upon each comment and reply made!
+
+-- Add likes to our first Post!
+INSERT INTO `Likes` VALUES (1, "SkaterDude");
+
+--Link the Like to the first post
+INSERT INTO `Likes_Posts` VALUES (1, 1);
+
+-- Add a follower for Dyras!
+INSERT INTO `Followers` VALUES (1, "SkaterDude");
+
+-- Link Followers to Dyras Profile
+INSERT INTO `Profiles_Followers` VALUES ("Dyras", 1);
+
+--Dyras starts following SkaterDude!
+INSERT INTO `Followings` VALUES (1, "SkaterDude");
+
+-- Link Followers to Dyras Profile
+INSERT INTO `Profiles_Followings` VALUES ("Dyras", 1);
