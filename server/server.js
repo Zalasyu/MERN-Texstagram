@@ -1,7 +1,7 @@
 import express from 'express';
 import mariadb from 'mariadb';
 import cors from 'cors';
-import fileUpload from 'express-fleupload';
+import fileUpload from 'express-fileupload';
 import morgan from 'morgan';
 import {port} from './config.js';
 
@@ -23,6 +23,8 @@ morgan.token('body', (req) => JSON.stringify(req.body));
 // Use a logger
 app.use(morgan('combined'));
 
+// Add the path.
+app.use(express.static("public"));
 
 /*
 * ROUTING
@@ -30,19 +32,26 @@ app.use(morgan('combined'));
 import profileRouter from './routes/profile.js';
 import feedRouter from './routes/feed.js';
 
+// Respond with homepage at root path
+app.get("/", (req,res) => {
+	res.sendFile("/index.html");
+
+})
+
+
 // TODO: Make this get request take a parameter to search and serve the right user's profile page.
-app.get("/api/", profileRouter);
+// app.get("/:username", profileRouter);
 
 // Serve the feed (Posts from all users in one place the homepage!)
-app.get("/api/feed", feedRouter);
+//app.get("/feed", feedRouter);
 
 
 app.post('');
 
 
-// Catch 404 adnd forward to error handler
+// Catch 404 and forward to error handler
 app.use((req,res,next) => {
-	const err = new Errpr('Not Found!');
+	const err = new Error('Not Found!');
 	err.status = 404;
 	next(err);
 
@@ -56,7 +65,9 @@ app.use( (err, req, res, next) =>{
 
 	// Render Error Page
 	res.status(err.status || 500);
-	res.render.('error');
+	res.json({
+		message: err.message,
+		error: err});
 
 });
 /* Start Listening. */
