@@ -43,7 +43,7 @@ import feedRouter from './routes/feed.js'
 app.post('/signup', authRouter);
 app.get('/', feedRouter);
 // TODO: Implement req.params for looking up profiles by username.
-// app.get('/:username', profileRouter);
+app.get('/:username', profileRouter);
 
 /*
 * ERROR HANDLING

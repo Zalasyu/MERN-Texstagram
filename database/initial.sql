@@ -56,9 +56,10 @@ CREATE TABLE `Likes_Posts` (
 );
 
 CREATE TABLE `Profiles` (
-  `username`          VARCHAR(255) NOT NULL,
+  `username`          VARCHAR(255) UNIQUE NOT NULL,
   `profile_pic_url`   VARCHAR(255) NOT NULL,
   `full_name`         VARCHAR(255) NOT NULL,
+  `password`          VARCHAR(255) NOT NULL,
   `bio`               TEXT,
 
   `num_followers`     INT NOT NULL,
@@ -141,10 +142,10 @@ CREATE TABLE `Profiles_Followers` (
 -- INSERT DUMMY DATA FOR ALL TABLES
 
 -- Add a Profile to Profiles Table
-INSERT INTO `Profiles`(`username`, `profile_pic_url`, `full_name`, `bio`, `num_followers`, `num_following`, `media_count`, `is_business`, `website_url`, `followed_by_user`, `is_following`, `is_blocked`, `is_verified`, `is_private`) VALUES ("Dyras", "Some URL for the profile pic", "Alec Moldovan", "Per aspera ad astra. Hic Sunt Dracones.", 0,0, 0, false,"https://medium.com/alec.moldovan", false, false, false, true, false);
+INSERT INTO `Profiles`(`username`, `profile_pic_url`, `full_name`, `password`, `bio`, `num_followers`, `num_following`, `media_count`, `is_business`, `website_url`, `followed_by_user`, `is_following`, `is_blocked`, `is_verified`, `is_private`) VALUES ("Dyras", "Some URL for the profile pic", "Alec Moldovan", "pass123", "Per aspera ad astra. Hic Sunt Dracones.", 0,0, 0, false,"https://medium.com/alec.moldovan", false, false, false, true, false);
 
 -- Second Profile
-INSERT INTO `Profiles`(`username`, `profile_pic_url`, `full_name`, `bio`, `num_followers`, `num_following`, `media_count`, `is_business`, `website_url`, `followed_by_user`, `is_following`, `is_blocked`, `is_verified`, `is_private`) VALUES ("SkaterDude", "Some URL for the profile pic", "Michael Morriss", "San Antonio Vibes!", 0,0, 0, false,"https://medium.com/micahel.morriss", false, false, false, true, false);
+INSERT INTO `Profiles`(`username`, `profile_pic_url`, `full_name`, `password`, `bio`, `num_followers`, `num_following`, `media_count`, `is_business`, `website_url`, `followed_by_user`, `is_following`, `is_blocked`, `is_verified`, `is_private`) VALUES ("SkaterDude", "Some URL for the profile pic", "Michael Morriss", "123", "San Antonio Vibes!", 0,0, 0, false,"https://medium.com/micahel.morriss", false, false, false, true, false);
 -- Add a Post to Posts Table
 INSERT INTO `Posts`(`post_id`, `owner`, `post_date`, `caption`, `display_url`, `is_video`, `status`) VALUES (1, "Dyras", "2022-02-21", "This is my first post on Texstagram!", "This will be a display url to our saved photos on our server.", False, "OK");
 
