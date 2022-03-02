@@ -4,7 +4,7 @@ import pool from '../helpers/database.js';
 
 const router = express.Router();
 
-router.get('/api/feed', async (req, res) => {
+router.get('/', async (req, res) => {
 	try{
 		res.status(200).json({Message: "Get Feed."});
 

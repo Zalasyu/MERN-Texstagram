@@ -2,8 +2,10 @@ import express from 'express';
 import mariadb from 'mariadb';
 import cors from 'cors';
 import fileUpload from 'express-fileupload';
+import path from 'path';
 import morgan from 'morgan';
 import {port} from './config.js';
+import { fileURLToPath } from 'url'; //Handles ES module scope error
 
 const app = express();
 
@@ -21,34 +23,31 @@ app.use(express.urlencoded({extended:false}));
 morgan.token('body', (req) => JSON.stringify(req.body));
 
 // Use a logger
-app.use(morgan('combined'));
+app.use(morgan('short'));
 
-// Add the path.
-app.use(express.static("public"));
+/*
+* Add the path.
+*/
+// returns the fully-resolved platform-specific Node.js file path.
+//const __filename = fileURLToPath(import.meta.url); //
+//const __dirname = path.dirname(__filename);
+//app.use(express.static(path.join(__dirname, "/public")));
 
 /*
 * ROUTING
 */
-import profileRouter from './routes/profile.js';
-import feedRouter from './routes/feed.js';
+import authRouter from './routes/auth.js'
+import profileRouter from './routes/profile.js'
+import feedRouter from './routes/feed.js'
 
-// Respond with homepage at root path
-app.get("/", (req,res) => {
-	res.sendFile("/index.html");
+app.post('/signup', authRouter);
+app.get('/', feedRouter);
+// TODO: Implement req.params for looking up profiles by username.
+// app.get('/:username', profileRouter);
 
-})
-
-
-// TODO: Make this get request take a parameter to search and serve the right user's profile page.
-// app.get("/:username", profileRouter);
-
-// Serve the feed (Posts from all users in one place the homepage!)
-//app.get("/feed", feedRouter);
-
-
-app.post('');
-
-
+/*
+* ERROR HANDLING
+*/
 // Catch 404 and forward to error handler
 app.use((req,res,next) => {
 	const err = new Error('Not Found!');
