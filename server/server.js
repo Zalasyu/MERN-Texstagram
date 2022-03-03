@@ -41,7 +41,6 @@ const __dirname = path.dirname(__filename);
 */
 app.use(cors());
 
-
 /*
  * SETUP: Express-fileupload
  * This will allow for users to upload files to our website.
