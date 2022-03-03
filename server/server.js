@@ -1,6 +1,7 @@
 import express from 'express';
 import mariadb from 'mariadb';
 import cors from 'cors';
+import favicon from 'serve-favicon';
 import fileUpload from 'express-fileupload';
 import path from 'path';
 import morgan from 'morgan';
@@ -13,28 +14,46 @@ const app = express();
 * MIDDWARE
 */
 
-// Parses incoming JSON requests and puts the parsed data in req.body (For POST and PUT Requests)
+// SETUP: Parses incoming JSON requests and puts the parsed data in req.body (For POST and PUT Requests)
 app.use(express.json());
 
-// Parses request body  of content-type www-form-urlencoded. (HTML post forms)
+// SETUP: Parses request body  of content-type www-form-urlencoded. (HTML post forms)
 app.use(express.urlencoded({extended:false}));
 
-// Log Post Requests body [Config morgan tokens]
+// SETUP: Log Post Requests body [Config morgan tokens]
 morgan.token('body', (req) => JSON.stringify(req.body));
 
-// Use a logger
+// SETUP: Use a logger
 app.use(morgan('short'));
 
 /*
-* Add the path.
+ * SETUP: Root Path
+ * Returns the fully-resolved platform-specific Node.js file path.
 */
-// returns the fully-resolved platform-specific Node.js file path.
-//const __filename = fileURLToPath(import.meta.url); //
-//const __dirname = path.dirname(__filename);
-//app.use(express.static(path.join(__dirname, "/public")));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+// app.use(express.static(path.join(__dirname, "/public")));
 
 /*
-* ROUTING
+* SETUP: CORS (Cross-Origin Resource Sharing)
+* So different origins can access our backend
+* Our Front-end (React) and server have different origins.
+*/
+app.use(cors());
+
+
+/*
+ * SETUP: Express-fileupload
+ * This will allow for users to upload files to our website.
+*/
+app.use(fileUpload());
+
+
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+
+
+/*
+ * SETUP: ROUTING
 */
 import authRouter from './routes/auth.js'
 import profileRouter from './routes/profile.js'
