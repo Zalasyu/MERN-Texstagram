@@ -57,21 +57,21 @@ CREATE TABLE `Likes_Posts` (
 
 CREATE TABLE `Profiles` (
   `username`          VARCHAR(255) UNIQUE NOT NULL,
-  `profile_pic_url`   VARCHAR(255) NOT NULL,
+  `profile_pic_url`   VARCHAR(255),
   `full_name`         VARCHAR(255) NOT NULL,
   `password`          VARCHAR(255) NOT NULL,
   `bio`               TEXT,
 
-  `num_followers`     INT NOT NULL,
-  `num_following`     INT NOT NULL,
-  `media_count`       INT NOT NULL,
-  `is_business`       BOOLEAN NOT NULL,
+  `num_followers`     INT DEFAULT 0,
+  `num_following`     INT DEFAULT 0,
+  `media_count`       INT DEFAULT 0,
+  `is_business`       BOOLEAN DEFAULT false,
   `website_url`       VARCHAR(255),
-  `followed_by_user`  BOOLEAN NOT NULL,
-  `is_following`      BOOLEAN NOT NULL,
-  `is_blocked`        BOOLEAN NOT NULL,
-  `is_verified`       BOOLEAN NOT NULL,
-  `is_private`        BOOLEAN NOT NULL,
+  `followed_by_user`  BOOLEAN DEFAULT false,
+  `is_following`      BOOLEAN DEFAULT false,
+  `is_blocked`        BOOLEAN DEFAULT false,
+  `is_verified`       BOOLEAN DEFAULT false,
+  `is_private`        BOOLEAN DEFAULT false,
   PRIMARY KEY (`username`)
 );
 

@@ -1,26 +1,51 @@
 import express from 'express';
+import pool from '../helpers/database.js';
 
 
 const router = express.Router();
 
-router.post('/signup', (req,res)=> {
-	const {username, full_name, password, bio, is_business, website_url, followed_by_user, is_following, is_blocked, is_verified, is_private} = req.body;
-	if( !username && !full_name && !password){
+// TODO: Deal with default values for parameters
+router.post('/signup', async (req,res) => {
+	try {
+		const {
+			username, profile_pic_url, 
+			full_name, password, 
+			bio, is_business, website_url, 
+			followed_by_user, is_following, 
+			is_blocked, is_verified, 
+			is_private} = req.body;
 
-		res.status(422).json({error:"Please enter a username, name and password."});
+		const sqlQuery = 'INSERT INTO `Profiles` (username, profile_pic_url, full_name, password, bio, is_business, website_url, followed_by_user, is_following, is_blocked ,is_verified, is_private) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)' 
 
-	} else if (!username){
-		return res.status(422).json({error:"Please enter a username."});
-	} else if( !full_name){
+		const result = await pool.query(sqlQuery, [username, profile_pic_url,
+			full_name, password, 
+			bio, is_business, website_url, 
+			followed_by_user, is_following, 
+			is_blocked, is_verified, 
+			is_private]);
 
-		return res.status(422).json({error:"Please enter your name."});
+		res.status(200).json(result);
+		if( !username && !full_name && !password){
 
-	} else if( !password){
+			res.status(422)
+				.json({error:"Please enter a username, name and password."});
 
-		return res.status(422).json({error:"Please enter a password."});
+		} else if (!username){
+			return res.status(422).json({error:"Please enter a username."});
+		
+		} else if( !full_name){
 
+			return res.status(422).json({error:"Please enter your name."});
+
+		} else if( !password){
+
+			return res.status(422).json({error:"Please enter a password."});
+		}
+
+	} catch (error) {
+
+		res.status(400).send(error.message);
 	}
-	// Otherwise: Save data to Mariadb Profiles
 
 });
 
