@@ -8,7 +8,7 @@ const router = express.Router();
 // TODO: Make function read from request's body for the profile page to be served based on the pass arguement (username).
 router.get('/:username', async (req, res) => {
 	try{
-		const sqlQuery = 'SELECT username, full_name FROM Profiles WHERE username=?;'
+		const sqlQuery = 'SELECT username, full_name, password FROM Profiles WHERE username=?;'
 		const rows = await pool.query(sqlQuery, req.params.username);
 		res.status(200).json(rows);
 
