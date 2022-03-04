@@ -6,14 +6,16 @@ import pool from '../helpers/database.js';
 
 const router = express.Router();
 
-// TODO: Find a way to reuse userCheck statements with consdieration to async.
-router.post('/signup', async (req,res) => {
+/*
+	* Sign Up Route
+	* Creates a new profile and encrypts password.
+	* */
+const signUpRouter = router.post('/signup', async (req,res) => {
 	try {
 		// Encypt Password
 		const saltRounds = 16;
 		const password = req.body.password;
 		const encryptedPassword = await  bcrypt.hash(password, saltRounds);
-		console.log(encryptedPassword);
 		
 		// Get rest of request json body.
 		const {
@@ -28,7 +30,6 @@ router.post('/signup', async (req,res) => {
 		const checkSql = "SELECT username from Profiles WHERE username='"+ escape(userCheck) +"';";
 		const checkResult = await pool.query(checkSql, [userCheck]);
 
-		console.log(checkResult[0]);
 		if (typeof checkResult[0] != 'undefined'){
 			return res.status(422).json({error: "Username already taken!"});
 
@@ -68,26 +69,38 @@ router.post('/signup', async (req,res) => {
 
 });
 
-export default router;
 
+/*
+	* Login Route
+	* Authencticates username and password
+	* */
+const loginRouter = router.post('/login', async (req,res) => {
 
-
-router.post('login', (req,res) => {
 	const {username, password} = req.body;
 	if(!username || !password){
-		return res.status(422).json({error: "Please enter you email and password."});
+		return res.status(422).json({error: "Please enter your email and password."});
 	}
 
-		const userCheck = req.body.username;
-		const checkSql = "SELECT username from Profiles WHERE username='"+ escape(userCheck) +"';";
-		const checkResult = await pool.query(checkSql, [userCheck]);
+	// Check if account exists
+	const userCheck = req.body.username;
+	const checkSql = "SELECT username, password from Profiles WHERE username='"+ escape(userCheck) +"';";
+	const checkResult = await pool.query(checkSql, [userCheck]);
 
-		console.log(checkResult[0]);
-		if (typeof checkResult[0] != 'undefined'){
-			return res.status(422).json({error: "Username already taken!"});
+	if (typeof checkResult[0] == 'undefined'){
+		return res.status(422).json({error: "Account doesn't exist!"});
+	}
 
-		}
+	// Compare passsword
+	const encryptedPassword = checkResult[0].password;
+	const match = await bcrypt.compare(req.body.password, encryptedPassword);
+	console.log(match);
 
+	if(match){
+		res.status(200).json({message: "Success."});
+	} else {
+		return res.status(422).json({error: "Invalid email or password!"});
+	}
 
+});
 
-})
+export {signUpRouter, loginRouter};
