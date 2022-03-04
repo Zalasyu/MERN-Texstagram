@@ -16,16 +16,13 @@ router.post('/signup', async (req,res) => {
 			is_private} = req.body;
 		
 		const userCheck = req.body.username;
+		const checkSql = "SELECT username from Profiles WHERE username='"+ escape(userCheck) +"';";
+		const checkResult = await pool.query(checkSql, [userCheck]);
 
-		// Check for duplicate entry AND uses mysql.connection.escape() to protect against SQL injection.
-		const duplicateEntryCheck = "SELECT * FROM Profiles WHERE username='"+ escape(userCheck) + "'";
-		const checkResult = await pool.query(duplicateEntryCheck, [userCheck]);
+		if (checkResult[0] != 'undefined'){
+			res.status(422).json({error: "Username alreadt taken!"});
 
-		// If SELECT query returns a result object then username is already taken.
-		if(typeof checkResult != 'undefined'){
-			return res.status(422).json({error: "This username exists already!"})
 		}
-
 
 		const sqlQuery = 'INSERT INTO `Profiles` (username, profile_pic_url, full_name, password, bio, is_business, website_url, followed_by_user, is_following, is_blocked ,is_verified, is_private) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)' 
 
@@ -35,7 +32,6 @@ router.post('/signup', async (req,res) => {
 			followed_by_user, is_following, 
 			is_blocked, is_verified, 
 			is_private]);
-		console.log("Here is the result: " + result.affectedRows);
 
 		res.status(200).json(result);
 		if( !username && !full_name && !password){
