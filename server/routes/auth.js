@@ -1,8 +1,9 @@
 import express from 'express';
 import async from 'async';
 import bcrypt from 'bcrypt';
+import jwt from "jsonwebtoken";
 import pool from '../helpers/database.js';
-
+import JWT_SECRET from '../keys.js'
 
 const router = express.Router();
 
@@ -10,7 +11,7 @@ const router = express.Router();
 	* Sign Up Route
 	* Creates a new profile and encrypts password.
 	* */
-const signUpRouter = router.post('/signup', async (req,res) => {
+const signUpRouter = router.post('/signup', upload.single("image"), async (req,res) => {
 	try {
 		// Encypt Password
 		const saltRounds = 16;
@@ -96,10 +97,18 @@ const loginRouter = router.post('/login', async (req,res) => {
 	console.log(match);
 
 	if(match){
-		res.status(200).json({message: "Success."});
+		// res.status(200).json({message: "Success."});
+		const token = jwt.sign({username:userCheck}, JWT_SECRET);
+		res.json({token});
 	} else {
 		return res.status(422).json({error: "Invalid email or password!"});
 	}
+
+});
+
+const = protectedRoute = router.get('/protected', (req, res) => {
+	res.send("HELLO authenticated user!");
+
 
 });
 
