@@ -2,8 +2,8 @@
 // Description: This file contains the 
 import express from 'express';
 import async from 'async';
-import multer from 'multer';
 import pool from '../helpers/database.js';
+import upload from '../middleware/fileUpload.js';
 
 const router = express.Router();
 
@@ -22,7 +22,7 @@ const getPost = router.get('/:username/:id', async (req, res) => {
 });
 
 
-const createPost = router.post("/:username/create", async (req.res) => {
+const createPost = router.post("/:username/create", async (req, res) => {
 	try {
 
 		const {media, caption, location} = req.body;

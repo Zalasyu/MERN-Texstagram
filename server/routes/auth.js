@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import jwt from "jsonwebtoken";
 import pool from '../helpers/database.js';
 import JWT_SECRET from '../keys.js'
+import upload from '../middleware/fileUpload.js';
 
 const router = express.Router();
 
@@ -11,6 +12,7 @@ const router = express.Router();
 	* Sign Up Route
 	* Creates a new profile and encrypts password.
 	* */
+//TODO: Fix upload function for file uploads.
 const signUpRouter = router.post('/signup', upload.single("image"), async (req,res) => {
 	try {
 		// Encypt Password
@@ -106,10 +108,5 @@ const loginRouter = router.post('/login', async (req,res) => {
 
 });
 
-const = protectedRoute = router.get('/protected', (req, res) => {
-	res.send("HELLO authenticated user!");
-
-
-});
 
 export {signUpRouter, loginRouter};
