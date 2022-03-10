@@ -1,11 +1,9 @@
 import express from 'express';
-import mariadb from 'mariadb';
-import cors from 'cors';
-import favicon from 'serve-favicon';
-import fileUpload from 'express-fileupload';
+import mariadb from 'mariadb'; // Our relational databse
+import cors from 'cors'; // Cross-Origin Resource Sharing 
 import path from 'path';
 import morgan from 'morgan';
-import {port} from './config.js';
+import { port } from './config.js';
 import { fileURLToPath } from 'url'; //Handles ES module scope error
 
 const app = express();
@@ -41,26 +39,26 @@ const __dirname = path.dirname(__filename);
 */
 app.use(cors());
 
-/*
- * SETUP: Express-fileupload
- * This will allow for users to upload files to our website.
-*/
-app.use(fileUpload());
-
-
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-
 
 /*
  * SETUP: ROUTING
 */
-import authRouter from './routes/auth.js'
+import { signUpRouter, loginRouter } from './routes/auth.js'
 import profileRouter from './routes/profile.js'
 import feedRouter from './routes/feed.js'
 
-app.post('/signup', authRouter);
+// Finds all posts from all profiles and serves to homepage.
 app.get('/', feedRouter);
-// TODO: Implement req.params for looking up profiles by username.
+
+// When a user signs up, the upload middleware will enable
+// file uploads when a form with the name "image" is activated.
+app.post('/signup', signUpRouter);
+
+// Enter user credentials to login. 
+// Finds matching username and checks if enter password matches stored password
+app.post('/login', loginRouter);
+
+// Finds and serves the target username.
 app.get('/:username', profileRouter);
 
 /*

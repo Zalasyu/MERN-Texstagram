@@ -4,6 +4,9 @@ import express from 'express';
 import async from 'async';
 import pool from '../helpers/database.js';
 import upload from '../middleware/fileUpload.js';
+import multer from 'multer';
+
+const upload = multer({dest:'../../database/media/posts'});
 
 const router = express.Router();
 
@@ -22,6 +25,7 @@ const getPost = router.get('/:username/:id', async (req, res) => {
 });
 
 
+//TODO: Implement a upload.single middleware and connect to frontend.
 const createPost = router.post("/:username/create", async (req, res) => {
 	try {
 
