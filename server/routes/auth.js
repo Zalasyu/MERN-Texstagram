@@ -4,75 +4,89 @@ import bcrypt from 'bcrypt';
 import jwt from "jsonwebtoken";
 import pool from '../helpers/database.js';
 import JWT_SECRET from '../keys.js'
-import { upload } from '../middleware/fileUpload.js';
-
+import { createProfile } from '../helpers/multerhelper.js';
 const router = express.Router();
+
 
 /*
 	* Sign Up Route
 	* Creates a new profile and encrypts password.
 	* */
 //TODO: Fix upload function for file uploads.
-const signUpRouter = router.post('/signup', upload.single('media'), async (req,res) => {
-	try {
-		// Encypt Password
-		const saltRounds = 16;
-		const password = req.body.password;
-		const encryptedPassword = await  bcrypt.hash(password, saltRounds);
-		
-		// Get rest of request json body.
-		const {
-			username, profile_pic_url, 
-			full_name, 
-			bio, is_business, website_url, 
-			followed_by_user, is_following, 
-			is_blocked, is_verified, 
-			is_private} = req.body;
-		
-		const userCheck = req.body.username;
-		const checkSql = "SELECT username from Profiles WHERE username='"+ escape(userCheck) +"';";
-		const checkResult = await pool.query(checkSql, [userCheck]);
+const signUpRouter = router.post('/signup', createProfile, async (req,res, next) => {
+	console.log(req.body);
+	console.log(req.file);
 
-		if (typeof checkResult[0] != 'undefined'){
-			return res.status(422).json({error: "Username already taken!"});
+	// Get rest of request json body.
+	const {
+		file, 
+		body: {name, username, password}
 
-		}
+	} = req;
 
-		const sqlQuery = 'INSERT INTO `Profiles` (username, profile_pic_url, full_name, password, bio, is_business, website_url, followed_by_user, is_following, is_blocked ,is_verified, is_private) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)' 
-
-		const result = await pool.query(sqlQuery, [username, profile_pic_url,
-			full_name, encryptedPassword, 
-			bio, is_business, website_url, 
-			followed_by_user, is_following, 
-			is_blocked, is_verified, 
-			is_private]);
-
-		res.status(200).json(result);
-		if( !username && !full_name && !password){
-
-			res.status(422)
-				.json({error:"Please enter a username, name and password."});
-
-		} else if (!username){
-			return res.status(422).json({error:"Please enter a username."});
-		
-		} else if( !full_name){
-
-			return res.status(422).json({error:"Please enter your name."});
-
-		} else if( !password){
-
-			return res.status(422).json({error:"Please enter a password."});
-		}
-
-	} catch (error) {
-
-		res.status(400).send(error.message);
+	// Check if a file was uploaded.
+	if(!file){
+		return res.status(400).json({error: "Upload an image file."});
 	}
+	
+	//TODO: Check file extension (Filter)
+	
+	//Initialize default values for all other required fields that was not passed by the request object
+	const profile_pic_url = file.destination;
+	const bio = "";
+	const is_business = false;
+	const website_url = "";
+	const followed_by_user = false;
+	const is_following = false;
+	const is_blocked = false;
+	const is_verified = false;
+	const is_private = false;
+
+	// Input check
+	if( !username && !name && !password){
+		return res.status(422)
+			.json({error:"Please enter a username, name and password."});
+	
+	} else if (!username){
+		return res.status(422).json({error:"Please enter a username."});
+	
+	} else if( !name){
+		return res.status(422).json({error:"Please enter your name."});
+
+	} else if( !password){
+		return res.status(422).json({error:"Please enter a password."});
+	}
+
+	// Encypt Password
+	const saltRounds = 16;
+	const encryptedPassword = await  bcrypt.hash(password, saltRounds);
+		
+	// Check if account already exists (Prevent duplicate entries)
+	const checkSql = "SELECT username from Profiles WHERE username='"+ escape(username) +"';";
+	const checkResult = await pool.query(checkSql, [username]);
+
+	if (typeof checkResult[0] != 'undefined'){
+		return res.status(422).json({error: "Username already taken!"});
+	}
+
+
+	// Account DNE, so create and insert into database.
+	const sqlQuery = 'INSERT INTO `Profiles` (username, profile_pic_url, full_name, password, bio, is_business, website_url, followed_by_user, is_following, is_blocked ,is_verified, is_private) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)' 
+
+	const result = await pool.query(sqlQuery, [username, profile_pic_url, name, encryptedPassword, bio, is_business, website_url, followed_by_user, is_following, is_blocked, is_verified, is_private]);
+
+	// 
+
+
+	// Success
+	res.status(200).json(result);
+
+
 
 });
 
 
+//decaperated...
 /*
 	* Login Route
 	* Authencticates username and password

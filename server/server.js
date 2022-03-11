@@ -27,10 +27,11 @@ app.use(morgan('short'));
 /*
  * SETUP: Root Path
  * Returns the fully-resolved platform-specific Node.js file path.
+ * CRITICAL: Critical for I/O operations like creating posts and profiles.
 */
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-// app.use(express.static(path.join(__dirname, "/public")));
+global.__basedir = __dirname;
 
 /*
 * SETUP: CORS (Cross-Origin Resource Sharing)
