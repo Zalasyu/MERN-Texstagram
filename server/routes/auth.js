@@ -1,18 +1,18 @@
 import express from 'express';
 import async from 'async';
 import bcrypt from 'bcrypt';
-import jwt from "jsonwebtoken";
+//import jwt from 'jwtoken';
+//import JWT_SECRET from '../middleware/requireLogin.js';
 import pool from '../helpers/database.js';
-import JWT_SECRET from '../keys.js'
 import { createProfile } from '../helpers/multerhelper.js';
 const router = express.Router();
 
 
 /*
 	* Sign Up Route
-	* Creates a new profile and encrypts password.
+	* Creates a new profile, downloads uploaded profile pic and encrypts password.
 	* */
-//TODO: Fix upload function for file uploads.
+//TODO: Fix: Don't allow fileupload if user account exists already.
 const signUpRouter = router.post('/signup', createProfile, async (req,res, next) => {
 	console.log(req.body);
 	console.log(req.file);
@@ -28,8 +28,6 @@ const signUpRouter = router.post('/signup', createProfile, async (req,res, next)
 	if(!file){
 		return res.status(400).json({error: "Upload an image file."});
 	}
-	
-	//TODO: Check file extension (Filter)
 	
 	//Initialize default values for all other required fields that was not passed by the request object
 	const profile_pic_url = file.destination;
@@ -86,7 +84,6 @@ const signUpRouter = router.post('/signup', createProfile, async (req,res, next)
 });
 
 
-//decaperated...
 /*
 	* Login Route
 	* Authencticates username and password

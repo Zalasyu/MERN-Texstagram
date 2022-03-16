@@ -1,4 +1,4 @@
-// Author: Alec Moldovan
+//Author: Alec Moldovan
 // Description: This file contains the 
 import express from 'express';
 import async from 'async';
@@ -6,7 +6,6 @@ import pool from '../helpers/database.js';
 import upload from '../middleware/fileUpload.js';
 import { createPost } from '../helpers/multerhelper.js';
 
-const upload = multer({dest:'../../database/media/posts'});
 
 const router = express.Router();
 
@@ -18,7 +17,7 @@ const getPost = router.get('/:username/:id', async (req, res) => {
 		res.status(200).json(rows);
 
 	} catch(error){
-		res.status(400).send(error.message);
+		return res.status(400).send(error.message);
 
 	}
 
@@ -27,16 +26,22 @@ const getPost = router.get('/:username/:id', async (req, res) => {
 
 const createPost = router.post("/:username/create", createPost, async (req, res) => {
 	try {
+		console.log(req.body);
+		console.log(req.file);
 
-		const {media, caption, location} = req.body;
-		const date_created = new Date();
-		console.log(date_created);
+		// Get rest of request json body.
+		const {
+			file, 
+			body: {username, caption, location}
+			} = req;
+
+			// Check if a file was uploaded.
+			if(!file){
+				return res.status(400).json({error: "Upload an image file."});
+			}
+	
 		
-		// Check if a pic/vid was submitted.
-		if (!media){
-			return res.status(422).json({error: "Error: Please add the media!"});
-		}
-		const sqlQuery = 'INSERT INTO `Posts`()';
+		const sqlQuery = 'INSERT INTO `Posts`(username, caption, location) VALUES (?,?,?)';
 		res.send("OK");
 
 	} catch (err) {

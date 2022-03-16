@@ -12,8 +12,7 @@ const profileStorage = multer.diskStorage({
 	},
 
 	filename: (req, file, cb) => {
-		cb(null, file.fieldname 
-			+ "_" + Date.now() 
+		cb(null, Date.now() 
 			+ "_" + file.originalname);
 	}
 

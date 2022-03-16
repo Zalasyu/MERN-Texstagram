@@ -26,19 +26,18 @@ DROP TABLE IF EXISTS `Followings`;
 -- Create Profiles Table
 CREATE TABLE `Posts` (
   `post_id`           INT AUTO_INCREMENT NOT NULL,
-  `owner`             VARCHAR(255) NOT NULL,
-  `location`          INT,
+  `username`          VARCHAR(255) NOT NULL,
+  `location`          VARCHAR(255),
   `post_date`         DATE,
   `caption`           TEXT,
   `comments_count`    INT DEFAULT 0,
   `likes_count`       INT DEFAULT 0,
-  `display_url`       VARCHAR(255) NOT NULL,
-  `is_video`          BOOLEAN NOT NULL,
+  `media`             VARCHAR(255) NOT NULL,
+  `is_video`          BOOLEAN DEFAULT false,
   `video_view_count`  INT,
   `video_url`         VARCHAR(255),
   `has_audio`         BOOLEAN,
   `video_duration`    INT,
-  `status`            VARCHAR(5) NOT NULL,
   PRIMARY KEY (`post_id`)
 );
 
@@ -57,11 +56,10 @@ CREATE TABLE `Likes_Posts` (
 
 CREATE TABLE `Profiles` (
   `username`          VARCHAR(255) UNIQUE NOT NULL,
-  `profile_pic_url`   VARCHAR(255),
+  `profile_pic_url`       VARCHAR(255) NOT NULL,
   `full_name`         VARCHAR(255) NOT NULL,
   `password`          VARCHAR(255) NOT NULL,
   `bio`               TEXT,
-
   `num_followers`     INT DEFAULT 0,
   `num_following`     INT DEFAULT 0,
   `media_count`       INT DEFAULT 0,
@@ -147,7 +145,7 @@ INSERT INTO `Profiles`(`username`, `profile_pic_url`, `full_name`, `password`, `
 -- Second Profile
 INSERT INTO `Profiles`(`username`, `profile_pic_url`, `full_name`, `password`, `bio`, `num_followers`, `num_following`, `media_count`, `is_business`, `website_url`, `followed_by_user`, `is_following`, `is_blocked`, `is_verified`, `is_private`) VALUES ("SkaterDude", "Some URL for the profile pic", "Michael Morriss", "123", "San Antonio Vibes!", 0,0, 0, false,"https://medium.com/micahel.morriss", false, false, false, true, false);
 -- Add a Post to Posts Table
-INSERT INTO `Posts`(`post_id`, `owner`, `post_date`, `caption`, `display_url`, `is_video`, `status`) VALUES (1, "Dyras", "2022-02-21", "This is my first post on Texstagram!", "This will be a display url to our saved photos on our server.", False, "OK");
+INSERT INTO `Posts`(`post_id`, `username`, `post_date`, `caption`, `media`, `is_video`) VALUES (1, "Dyras", "2022-02-21", "This is my first post on Texstagram!", "This will be a display url to our saved photos on our server.", False);
 
 -- Link Post to Profile Table
 INSERT INTO `Profiles_Posts` VALUES ("Dyras", 1);
