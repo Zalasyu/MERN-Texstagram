@@ -17,7 +17,7 @@ function App() {
           <Route path = "/signup" element={<SignUp />} />
           <Route path = "/login" element={<Login />} />
           <Route path = "/:username" element={<Profile />} />
-          <Route path = "/:username/delete" element={<Delete />} />
+
         </Routes>
       </BrowserRouter>
     );
