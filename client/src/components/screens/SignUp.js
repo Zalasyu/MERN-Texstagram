@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 
@@ -7,17 +8,20 @@ const SignUp = () => {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [media, setMedia] = useState();
+  const navigate = useNavigate;
 
   const send = event =>{
     const data = new FormData();
     data.append("name", name);
     data.append("username", username);
+    
     data.append("password", password);
     data.append("file", media);
 
     axios.post("http://localhost:8000/signup", data)
       .then(res => console.log(res))
       .catch(err => console.log(err));
+    navigate("/Home");
 
   };
   return(
@@ -28,6 +32,7 @@ const SignUp = () => {
         <div className="flex">
           <label htmlFor="full_name">Name</label>
           <input 
+            required 
             type="text" 
             id="full_name"
             name="full_name"
@@ -41,6 +46,7 @@ const SignUp = () => {
         <div className="flex">
           <label htmlFor="username">Username</label>
           <input 
+            required
             type="text" 
             id="username"
             name="username"
@@ -54,6 +60,7 @@ const SignUp = () => {
         <div className="flex">
           <label htmlFor="pwd">Password</label>
           <input 
+            required
             type="password" 
             id="pwd" 
             name="pwd"
@@ -67,6 +74,7 @@ const SignUp = () => {
         <div className="flex">
           <label htmlFor="media">Upload Profile Picture</label>
           <input 
+            required
             type="file" 
             id="file"
             accept=".jpg"
