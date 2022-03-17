@@ -52,7 +52,7 @@ import { getAllPosts, getPostsPerProfile, createContent } from './routes/posts.j
 app.get('/', getAllPosts);
 
 // Finds all posts for specific username
-//app.get('/:username', getPostsPerProfile);
+app.get('/:username/gallery', getPostsPerProfile);
 
 // Create a post
 app.post('/create', createContent);

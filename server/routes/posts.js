@@ -27,11 +27,12 @@ const getAllPosts = router.get('/', async (req, res) => {
 });
 
 // TODO: Make function read from request's body for the profile page to be served based on the pass arguement (username).
-const getPostsPerProfile = router.get('/:username', async (req, res) => {
+const getPostsPerProfile = router.get('/:username/gallery', async (req, res) => {
 	try{
 		// Queries for all records and fields of all Posts owned by specific username.
-		const sqlQuery = "SELECT * FROM Profiles JOIN Posts ON Profiles.username = Posts.username WHERE username=' "+ escape(username) +" '; ";
-		const rows = await pool.query(sqlQuery, req.params.username);
+		const username = req.params.username; 
+		const sqlQuery = "SELECT * FROM Posts WHERE owned_by=?";
+		const rows = await pool.query(sqlQuery, [username]);
 		res.status(200).json(rows);
 
 	} catch(error){
@@ -67,7 +68,7 @@ const createContent = router.post("/create", createPost, async (req, res) => {
 
 		console.log(sql_date)
 		
-		const sqlQuery = 'INSERT INTO `Posts`(username, media, caption, location, date) VALUES (?,?,?,?,?)';
+		const sqlQuery = 'INSERT INTO `Posts`(owned_by, media, caption, location, date) VALUES (?,?,?,?,?)';
 
 		const result = await pool.query(sqlQuery, [username, file.destination, caption, location, sql_date]);
 

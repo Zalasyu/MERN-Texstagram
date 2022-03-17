@@ -19,11 +19,10 @@ const getAllProfiles = router.get('/network', async (req, res) => {
 
 });
 
-const getProfilePage = router.get('/:username', getPostsPerProfile, async (req, res) => {
+const getProfilePage = router.get('/:username', async (req, res) => {
 	try{
-		console.log(req)
 
-		const sqlQuery = 'SELECT username, full_name, password FROM Profiles WHERE username=?;'
+		const sqlQuery = 'SELECT * FROM Profiles JOIN Posts ON Profiles.username = Posts.owned_by WHERE Profiles.username=?;'
 		const rows = await pool.query(sqlQuery, req.params.username);
 		res.status(200).json(rows);
 
