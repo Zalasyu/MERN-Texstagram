@@ -64,18 +64,19 @@ const createContent = router.post("/create", createPost, async (req, res) => {
 		let date = today.getDate();
 		let month = today.getMonth();
 		let year = today.getFullYear();
-		sql_date = `${year}-${month}-${date}`;
+		let sql_date = `${year}-${month}-${date}`;
 
 		console.log(sql_date)
+		const media_url = file.destination;
 		
-		const sqlQuery = 'INSERT INTO `Posts`(owned_by, media, caption, location, date) VALUES (?,?,?,?,?)';
+		const sqlQuery = 'INSERT INTO `Posts`(owned_by, media, caption, location, post_date) VALUES (?,?,?,?,?)';
 
-		const result = await pool.query(sqlQuery, [username, file.destination, caption, location, sql_date]);
+		const result = await pool.query(sqlQuery, [username, media_url, caption, location, sql_date]);
 
 		res.status(200).json(result);
 	} catch (err) {
 
-		return res.status(400).send(error.message);
+		return res.status(400).send(err.message);
 
 
 	}

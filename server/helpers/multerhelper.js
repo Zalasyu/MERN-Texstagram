@@ -21,7 +21,7 @@ const profileStorage = multer.diskStorage({
 const postsStorage = multer.diskStorage({
 	destination: (req, file, cb) => {
 		let path = 
-		cb( null, '../media/posts/');
+		cb( null, __basedir + "/media/posts/");
 	},
 
 	filename: (req, file, cb) => {
@@ -60,7 +60,7 @@ const profileUpload = multer({
 
 // Initialize upload mechanism
 const postsUpload = multer({
-	storage: profileStorage,
+	storage: postsStorage,
 	limits: {
 		fileSize: maxSize
 	},
