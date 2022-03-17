@@ -78,7 +78,7 @@ const SignUp = () => {
               <div></div>
 
               
-              <Button>Create Profile</Button>
+              <Button onClick={send}>Create Profile</Button>
             </Row>
             
           </Card>
