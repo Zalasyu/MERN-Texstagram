@@ -107,19 +107,12 @@ const loginRouter = router.post('/login', async (req,res) => {
 	// Compare passsword
 	const encryptedPassword = checkResult[0].password;
 	const match = await bcrypt.compare(req.body.password, encryptedPassword);
-	console.log(match);
-	res.status(200).json({message: "Successful Login!"});
 
-
-
-	// TODO: Backburned Tokenization of account login.
-	//if(match){
-	//	// res.status(200).json({message: "Success."});
-	//	const token = jwt.sign({username:userCheck}, JWT_SECRET);
-	//	res.json({token});
-	//} else {
-	//	return res.status(422).json({error: "Invalid email or password!"});
-	//}
+	if(match){
+		res.status(200).json({message: "Success."});
+	} else {
+		return res.status(422).json({error: "Invalid email or password!"});
+	}
 
 });
 
