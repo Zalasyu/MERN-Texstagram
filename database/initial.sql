@@ -26,7 +26,7 @@ DROP TABLE IF EXISTS `Followings`;
 -- Create Profiles Table
 CREATE TABLE `Posts` (
   `post_id`           INT AUTO_INCREMENT NOT NULL,
-  `username`          VARCHAR(255) NOT NULL,
+  `owned_by`          VARCHAR(255) NOT NULL,
   `location`          VARCHAR(255),
   `post_date`         DATE,
   `caption`           TEXT,
