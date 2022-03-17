@@ -8,3 +8,65 @@ a {
   font-family: "Grand Hotel", cursive;
   margin-left: 20px;
 }
+
+.login-logo {
+  margin-left: 150px;
+}
+
+.login_card {
+  text-align: center;
+  max-width: 500px;
+  margin: 10px auto;
+  padding: 23px;
+}
+.card {
+  margin-top: 30px;
+}
+
+.feedPost {
+  width: 50%;
+}
+
+.post_image {
+  border: 5px solid black;
+}
+
+.caption {
+  font-size: 20px;
+}
+
+.newPost {
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+.profile_info {
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+
+.profile_stats {
+  font-size: 20px;
+}
+
+.profile_pic_container {
+  justify-content: center;
+}
+
+.profile_stats li {
+  display: inline-block;
+  margin-right: 4rem;
+  cursor: pointer;
+}
+
+.bio {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.update-field {
+  margin-bottom: 20px;
+}
+
+.create_button {
+  margin-bottom: 20px;
+}

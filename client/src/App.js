@@ -6,19 +6,25 @@ import Home from './components/screens/Home.js'
 import Profile from './components/screens/Profile.js'
 import SignUp from './components/screens/SignUp.js'
 import Login from './components/screens/Login.js'
+import Create from './components/screens/Create.js'
+import UpdateBio from './components/screens/UpdateBio.js';
+import { Layout } from 'antd';
 
 // TODO: Implement Profile Pic Upload feature
 function App() {
     return (
       <BrowserRouter>
         <NavBar />
-        <Routes>
-          <Route exact path = "/" component={<Home />} />
-          <Route path = "/signup" element={<SignUp />} />
-          <Route path = "/login" element={<Login />} />
-          <Route path = "/:username" element={<Profile />} />
-
-        </Routes>
+        <Layout>
+          <Routes>
+            <Route path = "/home" element={<Home />} />
+            <Route path = "/signup" element={<SignUp />} />
+            <Route path = "/login" element={<Login />} />
+            <Route path = "/create" element={<Create />} />
+            <Route path = "/:username" element={<Profile />} />
+            <Route path = "/update" element={<UpdateBio />} />
+          </Routes>
+        </Layout>
       </BrowserRouter>
     );
 }
