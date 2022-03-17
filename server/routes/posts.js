@@ -3,7 +3,6 @@
 import express from 'express';
 import async from 'async';
 import pool from '../helpers/database.js';
-import upload from '../middleware/fileUpload.js';
 import { createPost } from '../helpers/multerhelper.js';
 
 
@@ -11,10 +10,18 @@ const router = express.Router();
 
 const getAllPosts = router.get('/', async (req, res) => {
 
-	// Queries for records and fields from Posts irrespective to username.
-	const sqlQuery = 'SELECT * FROM Posts;';
-	const rows = await pool.query(sqlQuery);
-	res.status(200).json(rows);
+	try {
+		// Queries for records and fields from Posts irrespective to username.
+		const sqlQuery = 'SELECT * FROM Posts;';
+		const rows = await pool.query(sqlQuery);
+		res.status(200).json(rows);
+
+	} catch(error){
+
+
+		return res.status(400).send(error.message);
+
+	}
 
 
 });
@@ -35,7 +42,7 @@ const getPostsPerProfile = router.get('/:username', async (req, res) => {
 });
 
 
-const createPost = router.post("/:username/create", createPost, async (req, res) => {
+const createContent = router.post("/create", createPost, async (req, res) => {
 	try {
 		console.log(req.body);
 		console.log(req.file);
@@ -51,7 +58,7 @@ const createPost = router.post("/:username/create", createPost, async (req, res)
 				return res.status(400).json({error: "Upload an image file."});
 			}
 
-		// Current timestamp
+		// Current Date
 		let today = new Date();
 		let date = today.getDate();
 		let month = today.getMonth();
@@ -59,18 +66,15 @@ const createPost = router.post("/:username/create", createPost, async (req, res)
 		sql_date = `${year}-${month}-${date}`;
 
 		console.log(sql_date)
-
-		// Initialize default values
-		const media = file.destination;
-
-	
 		
-		const sqlQuery = 'INSERT INTO `Posts`(username, caption, location) VALUES (?,?,?)';
-		res.send("OK");
+		const sqlQuery = 'INSERT INTO `Posts`(username, media, caption, location, date) VALUES (?,?,?,?,?)';
 
+		const result = await pool.query(sqlQuery, [username, file.destination, caption, location, sql_date]);
+
+		res.status(200).json(result);
 	} catch (err) {
 
-		res.status(400).send(error.message);
+		return res.status(400).send(error.message);
 
 
 	}
@@ -78,5 +82,5 @@ const createPost = router.post("/:username/create", createPost, async (req, res)
 
 
 });
-export default {getAllPosts, getPostsPerProfile, createPost};
+export { getAllPosts, getPostsPerProfile, createContent };
 

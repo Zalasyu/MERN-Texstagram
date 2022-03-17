@@ -45,17 +45,17 @@ app.use(cors());
  * SETUP: ROUTING
 */
 import { signUpRouter, loginRouter } from './routes/auth.js'
-import profileRouter from './routes/profile.js'
-import {getAllPosts, getPostsPerProfile, createPost} from './routes/posts.js'
+import { getAllProfiles, getProfilePage} from './routes/profile.js'
+import { getAllPosts, getPostsPerProfile, createContent } from './routes/posts.js'
 
 // Finds all posts from all profiles and serves to homepage.
 app.get('/', getAllPosts);
 
 // Finds all posts for specific username
-app.get('/:username', getPostsPerProfile);
+//app.get('/:username', getPostsPerProfile);
 
 // Create a post
-app.post('/create', createPost);
+app.post('/create', createContent);
 
 // When a user signs up, the upload middleware will enable
 // file uploads when a form with the name "image" is activated.
@@ -66,7 +66,10 @@ app.post('/signup', signUpRouter);
 app.post('/login', loginRouter);
 
 // Finds and serves the target username.
-app.get('/:username', profileRouter);
+app.get('/:username', getProfilePage);
+// Serves all Profiles in database Profile table
+app.get('/network', getAllProfiles);
+
 
 /*
 * ERROR HANDLING
