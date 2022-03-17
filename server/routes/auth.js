@@ -26,7 +26,7 @@ const signUpRouter = router.post('/signup', createProfile, async (req,res, next)
 
 	// Check if a file was uploaded.
 	if(!file){
-		return res.status(400).json({error: "Upload an image file."});
+		return res.status(400).send({error: "Upload an image file."});
 	}
 	
 	//Initialize default values for all other required fields that was not passed by the request object
@@ -64,7 +64,7 @@ const signUpRouter = router.post('/signup', createProfile, async (req,res, next)
 	const checkResult = await pool.query(checkSql, [username]);
 
 	if (typeof checkResult[0] != 'undefined'){
-		return res.status(422).json({error: "Username already taken!"});
+		return res.status(422).send({message: "Username already taken!"});
 	}
 
 

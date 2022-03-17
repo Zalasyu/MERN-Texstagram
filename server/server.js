@@ -46,10 +46,16 @@ app.use(cors());
 */
 import { signUpRouter, loginRouter } from './routes/auth.js'
 import profileRouter from './routes/profile.js'
-import feedRouter from './routes/feed.js'
+import {getAllPosts, getPostsPerProfile, createPost} from './routes/posts.js'
 
 // Finds all posts from all profiles and serves to homepage.
-app.get('/', feedRouter);
+app.get('/', getAllPosts);
+
+// Finds all posts for specific username
+app.get('/:username', getPostsPerProfile);
+
+// Create a post
+app.post('/create', createPost);
 
 // When a user signs up, the upload middleware will enable
 // file uploads when a form with the name "image" is activated.
