@@ -18,9 +18,15 @@ INSERT INTO `Profiles`(`username`, `profile_pic_url`, `full_name`, `password`, `
 INSERT INTO `Profiles`(`username`, `profile_pic_url`, `full_name`, `password`, `bio`, `num_followers`, `num_following`, `media_count`, `is_business`, `website_url`, `followed_by_user`, `is_following`, `is_blocked`, `is_verified`, `is_private`) VALUES ("SkaterDude", "Some URL for the profile pic", "Michael Morriss", "123", "San Antonio Vibes!", 0,0, 0, false,"https://medium.com/micahel.morriss", false, false, false, true, false);
 -- Add a Post to Posts Table
 INSERT INTO `Posts`(`post_id`, `owned_by`, `post_date`, `caption`, `media`, `is_video`) VALUES (1, "Dyras", "2022-02-21", "This is my first post on Texstagram!", "This will be a display url to our saved photos on our server.", False);
+-- Select
+SELECT owned_by, post_id, caption FROM Posts;
+-- Delete Post
+DELETE FROM Posts WHERE owned_by="Dyras" AND post_id=1;
+SELECT owned_by, post_id, caption FROM Posts;
+INSERT INTO `Posts`(`post_id`, `owned_by`, `post_date`, `caption`, `media`, `is_video`) VALUES (1, "Dyras", "2022-02-21", "This is my first post on Texstagram!", "This will be a display url to our saved photos on our server.", False);
 
--- Link Post to Profile Table
--- INSERT INTO `Profiles_Posts` VALUES ("Dyras", 1);
+-- Select
+SELECT owned_by, post_id, caption FROM Posts;
 
 -- Add a location to Locations Table
 INSERT INTO `Locations` VALUES (1, "Austin", "Texas");
@@ -35,6 +41,13 @@ INSERT INTO `Comments`(`comment_id`, `owner`, `comment_text`, `parent_comment_id
 -- Link Comment to Dyras' first post by Alec Moldovan
 INSERT INTO `Comments_Posts` VALUES (1,1);
 INSERT INTO `Comments_Posts` VALUES (1,2);
+-- Show Comments linked to post
+SELECT * FROM Comments_Posts;
+-- Test cascade when post is deleted.
+DELETE FROM Posts WHERE owned_by="Dyras" AND post_id=1;
+SELECT owned_by, post_id, caption FROM Posts;
+SELECT * FROM Comments_Posts;
+INSERT INTO `Posts`(`post_id`, `owned_by`, `post_date`, `caption`, `media`, `is_video`) VALUES (1, "Dyras", "2022-02-21", "This is my first post on Texstagram!", "This will be a display url to our saved photos on our server.", False);
 
 -- Add likes to our first Post!
 INSERT INTO `Likes` VALUES (1, "SkaterDude");
@@ -59,7 +72,6 @@ INSERT INTO `Profiles_Followings` VALUES ("Dyras", 1);
 
 -- Delete Profile (NOTE: Posts table doesn't have a foreign key that directly relates it to Profiles.) (UPDATE: Fixed by directly relating Posts.owned_by to Profiles.username instead of having a bridge table.")
 DELETE FROM Profiles WHERE username="Dyras";
-DELETE FROM Posts WHERE owned_by=""
 
 -- Re-Insert Dyras and his post!
 INSERT INTO `Profiles`(`username`, `profile_pic_url`, `full_name`, `password`, `bio`, `num_followers`, `num_following`, `media_count`, `is_business`, `website_url`, `followed_by_user`, `is_following`, `is_blocked`, `is_verified`, `is_private`) VALUES ("Dyras", "Some URL for the profile pic", "Alec Moldovan", "pass123", "Per aspera ad astra. Hic Sunt Dracones.", 0,0, 0, false,"https://medium.com/alec.moldovan", false, false, false, true, false);

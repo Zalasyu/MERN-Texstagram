@@ -64,7 +64,7 @@ CREATE TABLE `Posts` (
 ) ENGINE=InnoDB;
 
 CREATE TABLE `Likes` (
-  `like_id`   INT,
+  `like_id`   INT AUTO_INCREMENT NOT NULL,
   `liked_by`  VARCHAR(255) NOT NULL,
   PRIMARY KEY (`like_id`)
 ) ENGINE=InnoDB;
@@ -77,7 +77,7 @@ CREATE TABLE `Likes_Posts` (
 ) ENGINE=InnoDB;
 
 CREATE TABLE `Followings` (
-  `following_id` INT,
+  `following_id` INT NOT NULL,
   `username`    VARCHAR(255) NOT NULL,
   PRIMARY KEY (`following_id`)
 ) ENGINE=InnoDB;
@@ -90,7 +90,7 @@ CREATE TABLE `Profiles_Followings` (
 ) ENGINE=InnoDB;
 
 CREATE TABLE `Locations` (
-  `location_id` INT,
+  `location_id` INT NOT NULL AUTO_INCREMENT,
   `city`        VARCHAR(255) NOT NULL,
   `state`       VARCHAR(255) NOT NULL,
   PRIMARY KEY (`location_id`)
@@ -120,7 +120,7 @@ CREATE TABLE `Comments_Posts` (
 ) ENGINE=InnoDB;
 
 CREATE TABLE `Followers` (
-  `follower_id`   INT,
+  `follower_id`   INT NOT NULL,
   `username`      VARCHAR(255) NOT NULL,
   PRIMARY KEY (`follower_id`)
 ) ENGINE=InnoDB;

@@ -4,6 +4,8 @@ import express from 'express';
 import async from 'async';
 import pool from '../helpers/database.js';
 
+const router = express.Router();
+
 const comment = router.put("comment", async (req, res) =>{
 
 

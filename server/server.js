@@ -47,6 +47,7 @@ app.use(cors());
 import { signUpRouter, loginRouter } from './routes/auth.js';
 import { getAllProfiles, getProfilePage, updateBio} from './routes/profile.js';
 import { getAllPosts, getPostsPerProfile, createContent, editPost, deletePost } from './routes/posts.js';
+import {createLocation, editLocation, deleteLocation} from './routes/locations.js'
 
 // Enter user credentials to login. 
 // Finds matching username and checks if enter password matches stored password
@@ -79,8 +80,10 @@ app.put('/:username/edit_bio', updateBio);
 app.put("/:username/edit_post/:post_id", editPost);
 
 // Edit Posts
-app.post("/:username/delete_post/:post_id", deletePost);
+app.delete("/:username/delete_post/:post_id", deletePost);
 
+// Create a Location
+app.post('/createLocation', createLocation);
 
 /*
 * ERROR HANDLING

@@ -4,6 +4,9 @@
 import express from 'express';
 import async from 'async';
 import pool from '../helpers/database.js';
+
+const router = express.Router();
+
 const follow = router.put("like", async (req, res) =>{
 
 
