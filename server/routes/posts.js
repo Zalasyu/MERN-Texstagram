@@ -71,7 +71,7 @@ const createContent = router.post("/create", createPost, async (req, res) => {
 		
 		const sqlQuery = 'INSERT INTO `Posts`(owned_by, media, caption, post_date) VALUES (?,?,?,?)';
 
-		const result = await pool.query(sqlQuery, [username, media_url, caption, location, sql_date]);
+		const result = await pool.query(sqlQuery, [username, media_url, caption, sql_date]);
 
 		res.status(200).json(result);
 	} catch (err) {
@@ -85,16 +85,15 @@ const createContent = router.post("/create", createPost, async (req, res) => {
 
 });
 
-const deletePost = router.post( "/:username/delete_post/:post_id", async (req, res) => {
+const deletePost = router.delete( "/:username/delete_post/:post_id", async (req, res) => {
 	try {
-		console.log(req.body);
-		const username = req.paramas.username;
-		const post_id = req.paramas.post_id;
+		const username = req.params.username;
+		const post_id = req.params.post_id;
 
 		
-		const sqlQuery = "DELETE FROM Posts WHERE username=? AND post_id=?;";
+		const sqlQuery = "DELETE FROM Posts WHERE owned_by=? AND post_id=?;";
 
-		const result = await pool.query(sqlQuery, [post_id, username]);
+		const result = await pool.query(sqlQuery, [ username, post_id]);
 
 		res.status(200).json(result);
 	} catch (err) {
@@ -113,12 +112,12 @@ const editPost = router.put( "/:username/edit_post/:post_id", async (req, res) =
 
 		// Get rest of request json body.
 		const caption = req.body.caption;
-		const username = req.paramas.username;
-		const post_id = req.paramas.post_id;
+		const username = req.params.username;
+		const post_id = req.params.post_id;
 		
-		const sqlQuery = "UPDATE Posts SET caption=? WHERE username=? AND post_id=?;";
+		const sqlQuery = "UPDATE Posts SET caption=? WHERE owned_by=? AND post_id=?;";
 
-		const result = await pool.query(sqlQuery, [post_id, username, caption]);
+		const result = await pool.query(sqlQuery, [ caption, username, post_id]);
 
 		res.status(200).json(result);
 	} catch (err) {
