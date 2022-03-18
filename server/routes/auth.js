@@ -88,7 +88,7 @@ const signUpRouter = router.post('/signup', createProfile, async (req,res, next)
 	* Login Route
 	* Authencticates username and password
 	* */
-const loginRouter = router.post('/login', async (req,res) => {
+const loginRouter = router.post('/', async (req,res) => {
 
 	const {username, password} = req.body;
 	if(!username || !password){

@@ -50,7 +50,7 @@ import { getAllPosts, getPostsPerProfile, createContent } from './routes/posts.j
 import { updateBio } from './routes/bio';
 
 // Finds all posts from all profiles and serves to homepage.
-app.get('/', getAllPosts);
+app.get('/feed', getAllPosts);
 
 // Finds all posts for specific username
 app.get('/:username/gallery', getPostsPerProfile);
@@ -64,7 +64,7 @@ app.post('/signup', signUpRouter);
 
 // Enter user credentials to login. 
 // Finds matching username and checks if enter password matches stored password
-app.post('/login', loginRouter);
+app.post('/', loginRouter);
 
 // Finds and serves the target username.
 app.get('/:username', getProfilePage);
@@ -73,7 +73,7 @@ app.get('/:username', getProfilePage);
 app.get('/network', getAllProfiles);
 
 // Updates selected User's biography in their profile table.
-app.put('/bio', updateBio);
+app.put('/edit_bio', updateBio);
 
 
 /*

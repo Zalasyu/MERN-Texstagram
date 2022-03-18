@@ -8,7 +8,7 @@ import { createPost } from '../helpers/multerhelper.js';
 
 const router = express.Router();
 
-const getAllPosts = router.get('/', async (req, res) => {
+const getAllPosts = router.get('/feed', async (req, res) => {
 
 	try {
 		// Queries for records and fields from Posts irrespective to username.

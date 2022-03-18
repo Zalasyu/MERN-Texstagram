@@ -4,7 +4,7 @@ import pool from '../helpers/database.js';
 const router = express.Router();
 
 
-const updateBio = router.put('/bio', async (req, res) => {
+const updateBio = router.put('/edit_bio', async (req, res) => {
 	try{
 
 		const sqlQuery = 'UPDATE Profiles SET bio = ? WHERE username = ?';
