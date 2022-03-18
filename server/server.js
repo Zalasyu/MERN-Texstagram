@@ -44,9 +44,10 @@ app.use(cors());
 /*
  * SETUP: ROUTING
 */
-import { signUpRouter, loginRouter } from './routes/auth.js'
-import { getAllProfiles, getProfilePage} from './routes/profile.js'
-import { getAllPosts, getPostsPerProfile, createContent } from './routes/posts.js'
+import { signUpRouter, loginRouter } from './routes/auth.js';
+import { getAllProfiles, getProfilePage} from './routes/profile.js';
+import { getAllPosts, getPostsPerProfile, createContent } from './routes/posts.js';
+import { updateBio } from './routes/bio';
 
 // Finds all posts from all profiles and serves to homepage.
 app.get('/', getAllPosts);
@@ -67,8 +68,12 @@ app.post('/login', loginRouter);
 
 // Finds and serves the target username.
 app.get('/:username', getProfilePage);
+
 // Serves all Profiles in database Profile table
 app.get('/network', getAllProfiles);
+
+// Updates selected User's biography in their profile table.
+app.put('/bio', updateBio);
 
 
 /*
