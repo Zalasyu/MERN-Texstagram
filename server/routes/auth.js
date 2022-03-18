@@ -73,13 +73,8 @@ const signUpRouter = router.post('/signup', createProfile, async (req,res, next)
 
 	const result = await pool.query(sqlQuery, [username, profile_pic_url, name, encryptedPassword, bio, is_business, website_url, followed_by_user, is_following, is_blocked, is_verified, is_private]);
 
-	// 
-
-
 	// Success
 	res.status(200).json(result);
-
-
 
 });
 

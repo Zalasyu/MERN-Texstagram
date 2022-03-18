@@ -51,7 +51,7 @@ const createContent = router.post("/create", createPost, async (req, res) => {
 		// Get rest of request json body.
 		const {
 			file, 
-			body: {username, caption, location}
+			body: {username, caption}
 			} = req;
 
 			// Check if a file was uploaded.
@@ -69,7 +69,7 @@ const createContent = router.post("/create", createPost, async (req, res) => {
 		console.log(sql_date)
 		const media_url = file.destination;
 		
-		const sqlQuery = 'INSERT INTO `Posts`(owned_by, media, caption, location, post_date) VALUES (?,?,?,?,?)';
+		const sqlQuery = 'INSERT INTO `Posts`(owned_by, media, caption, post_date) VALUES (?,?,?,?)';
 
 		const result = await pool.query(sqlQuery, [username, media_url, caption, location, sql_date]);
 
@@ -85,17 +85,52 @@ const createContent = router.post("/create", createPost, async (req, res) => {
 
 });
 
-const editPost = router.put{ "/:username/edit_post", async (req, res) => {
+const deletePost = router.post( "/:username/delete_post/:post_id", async (req, res) => {
+	try {
+		console.log(req.body);
+		const username = req.paramas.username;
+		const post_id = req.paramas.post_id;
+
+		
+		const sqlQuery = "DELETE FROM Posts WHERE username=? AND post_id=?;";
+
+		const result = await pool.query(sqlQuery, [post_id, username]);
+
+		res.status(200).json(result);
+	} catch (err) {
+
+		return res.status(400).send(err.message);
+
+
+	}
+
+
+});
+
+const editPost = router.put( "/:username/edit_post/:post_id", async (req, res) => {
+	try {
+		console.log(req.body);
+
+		// Get rest of request json body.
+		const caption = req.body.caption;
+		const username = req.paramas.username;
+		const post_id = req.paramas.post_id;
+		
+		const sqlQuery = "UPDATE Posts SET caption=? WHERE username=? AND post_id=?;";
+
+		const result = await pool.query(sqlQuery, [post_id, username, caption]);
+
+		res.status(200).json(result);
+	} catch (err) {
+
+		return res.status(400).send(err.message);
+
+
+	}
 
 
 
+});
 
-
-
-
-
-}}
-
-
-export { getAllPosts, getPostsPerProfile, createContent };
+export { getAllPosts, getPostsPerProfile, createContent, editPost, deletePost };
 
