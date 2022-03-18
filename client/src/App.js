@@ -16,18 +16,11 @@ function App() {
     return (
       <BrowserRouter>
         <NavBar />
-        <Routes>
-          <Route exact path = "/feed" component={<Home />} />
-          <Route path = "/signup" element={<SignUp />} />
-          <Route path = "/" element={<Login />} />
-          <Route path = "/:username" element={<Profile />} />
-          <Route path = "/create" element={<createPost />} />
-        </Routes>
         <Layout>
           <Routes>
-            <Route path = "/home" element={<Home />} />
+            <Route exact path = "/" element={<Login />} />
+            <Route path = "/feed" element={<Home />} />
             <Route path = "/signup" element={<SignUp />} />
-            <Route path = "/login" element={<Login />} />
             <Route path = "/create" element={<Create />} />
             <Route path = "/:username" element={<Profile />} />
             <Route path = "/update" element={<UpdateBio />} />
