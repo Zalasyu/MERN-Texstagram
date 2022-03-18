@@ -73,7 +73,7 @@ app.get('/:username', getProfilePage);
 app.get('/network', getAllProfiles);
 
 // Updates selected User's biography in their profile table.
-app.put('/edit_bio', updateBio);
+app.put('/:username/edit_bio', updateBio);
 
 
 /*

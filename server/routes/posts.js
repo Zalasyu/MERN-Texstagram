@@ -84,5 +84,18 @@ const createContent = router.post("/create", createPost, async (req, res) => {
 
 
 });
+
+const editPost = router.put{ "/:username/edit_post", async (req, res) => {
+
+
+
+
+
+
+
+
+}}
+
+
 export { getAllPosts, getPostsPerProfile, createContent };
 
