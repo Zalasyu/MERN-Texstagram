@@ -9,7 +9,7 @@ import { fileURLToPath } from 'url'; //Handles ES module scope error
 const app = express();
 
 /*
-* MIDDWARE
+* MIDDLEWARE
 */
 
 // SETUP: Parses incoming JSON requests and puts the parsed data in req.body (For POST and PUT Requests)
@@ -45,9 +45,12 @@ app.use(cors());
  * SETUP: ROUTING
 */
 import { signUpRouter, loginRouter } from './routes/auth.js';
-import { getAllProfiles, getProfilePage} from './routes/profile.js';
-import { getAllPosts, getPostsPerProfile, createContent } from './routes/posts.js';
-import { updateBio } from './routes/bio';
+import { getAllProfiles, getProfilePage, updateBio} from './routes/profile.js';
+import { getAllPosts, getPostsPerProfile, createContent, editPost, deletePost } from './routes/posts.js';
+
+// Enter user credentials to login. 
+// Finds matching username and checks if enter password matches stored password
+app.post('/', loginRouter);
 
 // Finds all posts from all profiles and serves to homepage.
 app.get('/feed', getAllPosts);
@@ -62,9 +65,6 @@ app.post('/create', createContent);
 // file uploads when a form with the name "image" is activated.
 app.post('/signup', signUpRouter);
 
-// Enter user credentials to login. 
-// Finds matching username and checks if enter password matches stored password
-app.post('/', loginRouter);
 
 // Finds and serves the target username.
 app.get('/:username', getProfilePage);
@@ -74,6 +74,12 @@ app.get('/network', getAllProfiles);
 
 // Updates selected User's biography in their profile table.
 app.put('/:username/edit_bio', updateBio);
+
+// Edit Posts
+app.put("/:username/edit_post/:post_id", editPost);
+
+// Edit Posts
+app.post("/:username/delete_post/:post_id", deletePost);
 
 
 /*
