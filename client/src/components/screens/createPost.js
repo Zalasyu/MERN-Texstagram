@@ -1,66 +1,45 @@
+// Author: Alec Moldovan
+// Description: The UI for creating a post. Notable Feature: Dropdown menu users dynamically mapped to database.
 import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 
-const SignUp = () => {
-  const [name, setName] = useState();
+// TODO: Create dropdown menus that maps to locations and profiles.
+const Create = () => {
+  const [caption, setCaption] = useState();
   const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
+  const [location, setLocation] = useState();
   const [media, setMedia] = useState();
-  const [error, setError] = useState();
-  const [post, setPost] = useState();
   const navigate = useNavigate;
 
   const send = event =>{
     const data = new FormData();
-    data.append("name", name);
     data.append("username", username);
-    
-    data.append("password", password);
+    data.append("caption", caption);
+    data.append("location", location);
     data.append("file", media);
 
-    axios.post("http://localhost:8000/signup", data)
-      .then((res) => {
-        setPost(res);
-
-      })
-      .catch(error => {
-        setError(error);
-
-      });
+    axios.post(`http://localhost:8000/create`, data)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
     navigate("/Home");
-  }
-  
-  if (error) return `Error: Username taken already!`;
 
+  };
   return(
     <div className = "registration">
       <h1>Register</h1>
       
       <form action="#">
-        <div className="flex">
-          <label htmlFor="full_name">Name</label>
-          <input 
-            required 
-            type="text" 
-            id="full_name"
-            name="full_name"
-            placeholder="Enter name"
-            onChange={event => {
-              const { value } = event.target;
-              setName(value);
-          }}
-          />
-        </div>
+        
         <div className="flex">
           <label htmlFor="username">Username</label>
           <input 
-            required
+            required 
             type="text" 
             id="username"
             name="username"
-            placeholder="Enter Username"
+            placeholder="Enter name"
             onChange={event => {
               const { value } = event.target;
               setUsername(value);
@@ -68,21 +47,35 @@ const SignUp = () => {
           />
         </div>
         <div className="flex">
-          <label htmlFor="pwd">Password</label>
+          <label htmlFor="location">Username</label>
           <input 
             required
-            type="password" 
-            id="pwd" 
-            name="pwd"
-            placeholder="Enter Password"
+            type="text" 
+            id="location"
+            name="location"
+            placeholder="Enter locaion"
             onChange={event => {
               const { value } = event.target;
-              setPassword(value);
+              setUsername(value);
+          }}
+          />
+        </div>
+        <div className="flex">
+          <label htmlFor="pwd">Location</label>
+          <input 
+            required
+            type="text" 
+            id="caption" 
+            name="caption"
+            placeholder="Enter caption"
+            onChange={event => {
+              const { value } = event.target;
+              setCaption(value);
           }}
             />
         </div>
         <div className="flex">
-          <label htmlFor="media">Upload Profile Picture</label>
+          <label htmlFor="media">Upload Media</label>
           <input 
             required
             type="file" 
@@ -102,4 +95,4 @@ const SignUp = () => {
   );
 }
 
-export default SignUp;
+export default Create;
