@@ -47,7 +47,7 @@ app.use(cors());
 import { signUpRouter, loginRouter } from './routes/auth.js';
 import { getAllProfiles, getProfilePage} from './routes/profile.js';
 import { getAllPosts, getPostsPerProfile, createContent } from './routes/posts.js';
-import { updateBio } from './routes/bio';
+import { updateBio } from './routes/bio.js';
 
 // Finds all posts from all profiles and serves to homepage.
 app.get('/feed', getAllPosts);
