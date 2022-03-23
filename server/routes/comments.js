@@ -2,7 +2,7 @@
 // Description: Contain all CRUD operations effecting the comments table.
 import express from 'express';
 import async from 'async';
-import pool from '../helpers/database.js';
+import pool from '../controllers/database.js';
 
 const router = express.Router();
 

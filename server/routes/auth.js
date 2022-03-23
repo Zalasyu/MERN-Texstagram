@@ -3,8 +3,8 @@ import async from 'async';
 import bcrypt from 'bcrypt';
 //import jwt from 'jwtoken';
 //import JWT_SECRET from '../middleware/requireLogin.js';
-import pool from '../helpers/database.js';
-import { createProfile } from '../helpers/multerhelper.js';
+import pool from '../controllers/database.js';
+import { createProfile } from '../middleware/multerhelper.js';
 const router = express.Router();
 
 

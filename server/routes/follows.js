@@ -3,7 +3,7 @@
 // 	followers, followings and profiles tables.
 import express from 'express';
 import async from 'async';
-import pool from '../helpers/database.js';
+import pool from '../controllers/database.js';
 
 const router = express.Router();
 

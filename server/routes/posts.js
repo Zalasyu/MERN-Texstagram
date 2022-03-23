@@ -2,8 +2,8 @@
 // Description: This file contains the 
 import express from 'express';
 import async from 'async';
-import pool from '../helpers/database.js';
-import { createPost } from '../helpers/multerhelper.js';
+import pool from '../controllers/database.js';
+import { createPost } from '../middleware/multerhelper.js';
 
 
 const router = express.Router();

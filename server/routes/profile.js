@@ -1,7 +1,7 @@
 // Author: Alec Moldovan
 // Description: This file contains the 
 import express from 'express';
-import pool from '../helpers/database.js';
+import pool from '../controllers/database.js';
 import { getPostsPerProfile } from './posts.js';
 
 const router = express.Router();
